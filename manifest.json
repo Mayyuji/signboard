@@ -1,0 +1,18 @@
+{
+	"manifest_version": 1,
+	"name": "SignBoard",
+	"slug": "example-plugin",
+	"version": "0.1.0",
+	"betterncm_version": ">=1.0.0",
+	"author": "wuyue",
+	"author_link": "https://example.com",
+	"description": "Description of the plugin",
+	"type": "extension",
+	"injects": {
+		"Main": [
+			{
+				"file": "./dist/index.js"
+			}
+		]
+	}
+}
