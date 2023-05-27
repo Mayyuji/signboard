@@ -1,10 +1,10 @@
 import { createApp, h } from 'vue'
-import SignBoard from './SignBoard.vue'
-import "@gausszhou/vue3-drag-resize-rotate/lib/bundle.esm.css";
+import MenuPage from './MenuPage.vue'
+import "@gausszhou/vue3-drag-resize-rotate/lib/bundle.esm.css"; // 组件内引入不生效
 try {
     plugin.onConfig(function () {
         const root = document.createElement('div')
-        createApp(h(SignBoard)).mount(root);
+        createApp(h(MenuPage)).mount(root);
         return root;
     });
 } catch (error) {
@@ -13,6 +13,6 @@ try {
     tip.innerHTML = '插件暂不支持外部运行!!!'
     Element[0].appendChild(tip)
     // console.error('插件暂不支持外部运行!!!')
-    createApp(SignBoard).mount(tip);
+    createApp(MenuPage).mount(tip);
 }
 
