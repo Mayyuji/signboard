@@ -1,7 +1,6 @@
 import { createApp, h } from 'vue'
 import SignBoard from './SignBoard.vue'
 import "@gausszhou/vue3-drag-resize-rotate/lib/bundle.esm.css";
-import "./assets/tailwind.css"
 try {
     plugin.onConfig(function () {
         const root = document.createElement('div')

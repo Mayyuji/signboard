@@ -14,13 +14,14 @@
 	import VueDragResizeRotate from '@gausszhou/vue3-drag-resize-rotate'
 	import { ref } from 'vue'
 
-	const open = ref(true)
+	const open = ref(false)
 	const modelClose = () => {
 		console.log(12121)
 	}
 </script>
 
 <style scoped>
+	@import './assets/tailwind.css';
 	.modal {
 		position: absolute;
 		background: #fff;
