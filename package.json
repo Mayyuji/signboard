@@ -9,11 +9,15 @@
 		"preview": "vite preview"
 	},
 	"dependencies": {
+		"@gausszhou/vue3-drag-resize-rotate": "^3.0.1",
 		"vue": "^3.2.47"
 	},
 	"devDependencies": {
 		"@vitejs/plugin-vue": "^4.1.0",
+		"autoprefixer": "^10.4.14",
+		"postcss": "^8.4.23",
 		"sass": "^1.62.1",
+		"tailwindcss": "^3.3.2",
 		"vite": "^4.3.2"
 	}
 }
