@@ -10,7 +10,8 @@
 				:w="350"
 				:h="350"
 				@dragstop="onDragStop">
-				<img class="vertical-painting" :src="srcprox" />
+				<!-- <img class="vertical-painting" :src="srcprox" alt="请检查图片所在目录" /> -->
+				<img class="vertical-painting" src="../assets/img/立绘_缪尔赛思_1.png" />
 			</VueDragResizeRotate>
 			<button @click="saveSetting">Close</button>
 		</div>
