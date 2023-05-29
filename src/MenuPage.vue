@@ -14,11 +14,19 @@
 		<div class="card">
 			<div class="cont-c pic-title">弹窗操作配置项:</div>
 			<div class="tip">🤔<span class="tip-txt">弹窗开启时操作功能在左上角</span></div>
-			<div class="fake-form">
-				<div class="fake-form-label">是否固定宽高比例：</div>
+			<div class="fake-form-item">
+				<div class="fake-form-label">是否固定宽高比例♾️(☢️⚠️强烈不建议关闭☣️)：</div>
 				<Switch v-model="setting.lockAspect" />
 			</div>
-			<button class="btn" @click="choosePic">调整图片</button>
+			<div class="fake-form-item">
+				<div class="fake-form-label">允许图片拖动超出页面边界🔲：</div>
+				<Switch v-model="setting.parent" />
+			</div>
+			<div class="fake-form-item">
+				<div class="fake-form-label">允许图片旋转🔄️：</div>
+				<Switch v-model="setting.rotatable" />
+			</div>
+			<button class="btn" @click="choosePic">Go 开始调整</button>
 		</div>
 	</div>
 	<Panel ref="panelRef" />
@@ -121,10 +129,11 @@
 				}
 			}
 			// second block
-			.fake-form {
+			.fake-form-item {
 				display: flex;
 				align-items: center;
 				.fake-form-label {
+					font-size: 18px;
 				}
 			}
 		}
