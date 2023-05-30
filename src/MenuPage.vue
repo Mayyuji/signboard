@@ -6,7 +6,7 @@
 			<div class="tip">🤔<span class="tip-txt">仅推荐使用.png透明背景的图片</span></div>
 			<div class="pic-list">
 				<div class="pic-item">
-					<img class="full-img" src="./assets/img/立绘_缪尔赛思_1.png" />
+					<!-- <img class="full-img" src="./assets/img/立绘_缪尔赛思_1.png" /> -->
 				</div>
 			</div>
 			<button class="btn" @click="choosePic">选择图片</button>
@@ -15,7 +15,7 @@
 			<div class="cont-c pic-title">弹窗操作配置项:</div>
 			<div class="tip">🤔<span class="tip-txt">弹窗开启时操作功能在左上角</span></div>
 			<div class="fake-form-item">
-				<div class="fake-form-label">是否固定宽高比例♾️(☢️⚠️强烈不建议关闭☣️)：</div>
+				<div class="fake-form-label">是否固定宽高比例♾️(☢️强烈不建议关闭☣️)：</div>
 				<Switch v-model="setting.lockAspect" />
 			</div>
 			<div class="fake-form-item">
@@ -23,7 +23,7 @@
 				<Switch v-model="setting.parent" />
 			</div>
 			<div class="fake-form-item">
-				<div class="fake-form-label">允许图片旋转🔄️：</div>
+				<div class="fake-form-label">允许旋转🔄️：</div>
 				<Switch v-model="setting.rotatable" />
 			</div>
 			<button class="btn" @click="choosePic">Go 开始调整</button>
@@ -36,7 +36,6 @@
 	import Switch from './components/switch.vue'
 	import { ref, reactive, toRaw, unref } from 'vue'
 
-	const open = ref(false)
 	const setting = reactive({
 		rotatable: true, //旋转
 		z: 0, //层级
@@ -53,9 +52,10 @@
 		panelRef.value.modelShow(toRaw(setting), unref(picPath))
 	}
 	const choosePic = async () => {
-		const filePath = await betterncm.app.openFileDialog('.webp .png .jpg\0', './')
-		const path = await betterncm.fs.mountFile(filePath)
-		picPath.value = path
+		// const filePath = await betterncm.app.openFileDialog('.webp .png .jpg\0', './') // 获取文件路径
+		// const path = await betterncm.fs.mountFile(filePath)
+		// picPath.value = path
+		panelRef.value.modelShow(toRaw(setting), unref(picPath)) //  获取图片代理地址
 	}
 	const modelClose = () => {
 		console.log(12121)

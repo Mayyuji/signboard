@@ -7,11 +7,12 @@
 				:rotatable="setting.rotatable"
 				:parent="setting.parent"
 				:lock-aspect-ratio="setting.lockAspect"
-				:w="350"
-				:h="350"
+				:x="offectX"
+				:y="offectY"
+				@resizestop="onResizeStop"
 				@dragstop="onDragStop">
-				<!-- <img class="vertical-painting" :src="srcprox" alt="请检查图片所在目录" /> -->
-				<img class="vertical-painting" src="../assets/img/立绘_缪尔赛思_1.png" />
+				<!-- <img class="vertical-painting" :src="srcprox" alt="" /> -->
+				<!-- <img class="vertical-painting" src="../assets/img/立绘_缪尔赛思_1.png" /> -->
 			</VueDragResizeRotate>
 			<button @click="saveSetting">Close</button>
 		</div>
@@ -21,9 +22,11 @@
 	import VueDragResizeRotate from '@gausszhou/vue3-drag-resize-rotate'
 	import { ref, reactive } from 'vue'
 
-	const show = ref(false)
-	const offectX = ref(0)
-	const offectY = ref(0)
+	const show = ref(true)
+	const offectX = ref(50)
+	const offectY = ref(50)
+	const boxWidth = ref(0)
+	const boxHeight = ref(0)
 	const setting = reactive({})
 	/**
 	 * @rotatable 旋转
@@ -41,6 +44,12 @@
 	const onDragStop = (x, y) => {
 		offectX.value = x
 		offectY.value = y
+	}
+	const onResizeStop = (x, y, width, height) => {
+		offectX.value = x
+		offectY.value = y
+		boxWidth.value = width
+		boxHeight.value = height
 	}
 	const saveSetting = () => {}
 	defineExpose({
