@@ -3,18 +3,26 @@
 	<Teleport to="body">
 		<div v-if="show && setting" class="modal">
 			<VueDragResizeRotate
-				:z="setting.z || 0"
-				:rotatable="setting.rotatable"
-				:parent="setting.parent"
-				:lock-aspect-ratio="setting.lockAspect"
-				:x="offectX"
-				:y="offectY"
+				:z="setting.options.z || 0"
+				:rotatable="setting.options.rotatable"
+				:parent="setting.options.parent"
+				:lock-aspect-ratio="setting.options.lockAspect"
+				:enable-native-drag="false"
+				:prevent-deactivation="true"
+				:active="true"
+				:x="setting.options.x"
+				:y="setting.options.y"
+				:w="setting.options.w"
+				:h="setting.options.h"
+				:min-width="100"
+				:min-height="100"
 				@resizestop="onResizeStop"
 				@dragstop="onDragStop">
 				<!-- <img class="vertical-painting" :src="srcprox" alt="" /> -->
-				<!-- <img class="vertical-painting" src="../assets/img/立绘_缪尔赛思_1.png" /> -->
+				<img class="vertical-painting" src="../assets/img/立绘_缪尔赛思_1.png" />
 			</VueDragResizeRotate>
-			<button @click="saveSetting">Close</button>
+			<button @click="saveSetting">保存</button>
+			{{ setting.lockAspect }}
 		</div>
 	</Teleport>
 </template>
@@ -22,36 +30,37 @@
 	import VueDragResizeRotate from '@gausszhou/vue3-drag-resize-rotate'
 	import { ref, reactive } from 'vue'
 
-	const show = ref(true)
-	const offectX = ref(50)
-	const offectY = ref(50)
-	const boxWidth = ref(0)
-	const boxHeight = ref(0)
-	const setting = reactive({})
+	const show = ref(false)
+	const setting = reactive({ options: { w: 300, h: 300, x: 50, y: 50 } })
 	/**
 	 * @rotatable 旋转
 	 * @z 层级
 	 * @parent 超越边界
 	 * @lockAspect 锁定比例
+	 * :enable-native-drag 禁止内部元素拖动
+	 * :prevent-deactivation 阻止失活
 	 */
 	const srcprox = ref('')
 
 	const modelShow = (options, pic) => {
 		srcprox.value = pic
-		setting.value = options
+		setting.options = options
 		show.value = true
 	}
 	const onDragStop = (x, y) => {
-		offectX.value = x
-		offectY.value = y
+		setting.options.x = x
+		setting.options.y = y
 	}
 	const onResizeStop = (x, y, width, height) => {
-		offectX.value = x
-		offectY.value = y
-		boxWidth.value = width
-		boxHeight.value = height
+		setting.options.x = x
+		setting.options.y = y
+		setting.options.w = width
+		setting.options.h = height
 	}
-	const saveSetting = () => {}
+	const saveSetting = () => {
+		console.log(setting.options)
+		show.value = false
+	}
 	defineExpose({
 		modelShow,
 	})
@@ -70,6 +79,7 @@
 		.vertical-painting {
 			width: 100%;
 			height: 100%;
+			object-fit: contain; //长
 		}
 	}
 </style>

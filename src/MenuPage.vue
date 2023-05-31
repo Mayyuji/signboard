@@ -6,7 +6,7 @@
 			<div class="tip">🤔<span class="tip-txt">仅推荐使用.png透明背景的图片</span></div>
 			<div class="pic-list">
 				<div class="pic-item">
-					<!-- <img class="full-img" src="./assets/img/立绘_缪尔赛思_1.png" /> -->
+					<img class="full-img" src="./assets/img/立绘_缪尔赛思_1.png" />
 				</div>
 			</div>
 			<button class="btn" @click="choosePic">选择图片</button>
@@ -26,7 +26,7 @@
 				<div class="fake-form-label">允许旋转🔄️：</div>
 				<Switch v-model="setting.rotatable" />
 			</div>
-			<button class="btn" @click="choosePic">Go 开始调整</button>
+			<button class="btn" @click="openModel">Go 开始调整</button>
 		</div>
 	</div>
 	<Panel ref="panelRef" />
@@ -34,28 +34,36 @@
 <script setup>
 	import Panel from './pages/Panel.vue'
 	import Switch from './components/switch.vue'
+	import { getImageSize } from './utils/utrl'
+
 	import { ref, reactive, toRaw, unref } from 'vue'
 
 	const setting = reactive({
-		rotatable: true, //旋转
+		rotatable: false, //旋转
 		z: 0, //层级
-		parent: false, //拖动出边界
-		lockAspect: false, //锁定比例
+		parent: true, //拖动出边界
+		lockAspect: true, //锁定比例
+		x: 50,
+		y: 50,
+		w: 300,
+		h: 300,
 	})
 	const panelRef = ref(null)
 	const picPath = ref('')
 
-	const openModel = () => {
-		// betterncm.app.openFileDialog('.webp .png .jpg\0', './') 获取文件路径
-		// betterncm.fs.mountFile(this.ImageUrl); 获取图片代理地址
-
+	const openModel = async () => {
+		// const filePath = await betterncm.app.openFileDialog('.webp .png .jpg\0', './') // 获取文件路径
+		// const path = await betterncm.fs.mountFile(filePath)
+		// picPath.value = path
+		// picPath.value = './assets/img/立绘_缪尔赛思_1.png'
+		const { newWidth, newHeight } = await getImageSize('src/assets/img/立绘_缪尔赛思_1.png')
+		setting.w = newWidth
+		setting.h = newHeight
 		panelRef.value.modelShow(toRaw(setting), unref(picPath))
 	}
 	const choosePic = async () => {
 		// const filePath = await betterncm.app.openFileDialog('.webp .png .jpg\0', './') // 获取文件路径
-		// const path = await betterncm.fs.mountFile(filePath)
-		// picPath.value = path
-		panelRef.value.modelShow(toRaw(setting), unref(picPath)) //  获取图片代理地址
+		// const path = await betterncm.fs.mountFile(filePath) //  获取图片代理地址
 	}
 	const modelClose = () => {
 		console.log(12121)
@@ -85,10 +93,6 @@
 		&:hover {
 			background-color: #313641;
 		}
-	}
-	.full-img {
-		width: 100%;
-		height: 100%;
 	}
 	.wy-menu-box {
 		width: 100%;
@@ -120,11 +124,24 @@
 				margin-bottom: 20px;
 				.pic-item {
 					margin: 0 20px 20px 0;
+					overflow: hidden;
 					border-radius: 8px;
+					height: 270px;
 					box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
 					width: calc((100% - 80px) / 4);
 					&::nth-of-type(4n + 0) {
 						margin-right: 0;
+					}
+					.full-img {
+						width: 100%;
+						height: 100%;
+						// object-fit: cover; //短
+						object-fit: contain; //长
+						background-image: linear-gradient(45deg, #00000040, #00000040),
+							linear-gradient(45deg, #eee 25%, transparent 0, transparent 75%, #eee 0, #eee),
+							linear-gradient(45deg, #eee 25%, #fff 0, #fff 75%, #eee 0, #eee);
+						background-size: 20px 20px;
+						background-position: 0 0, 0 0, 10px 10px;
 					}
 				}
 			}
