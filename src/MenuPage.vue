@@ -6,7 +6,7 @@
 			<div class="tip">🤔<span class="tip-txt">仅推荐使用.png透明背景的图片</span></div>
 			<div class="pic-list">
 				<div class="pic-item">
-					<img class="full-img" src="./assets/img/立绘_缪尔赛思_1.png" />
+					<!-- <img class="full-img" src="./assets/img/立绘_缪尔赛思_1.png" /> -->
 				</div>
 			</div>
 			<button class="btn" @click="choosePic">选择图片</button>
@@ -23,7 +23,7 @@
 				<Switch v-model="setting.parent" />
 			</div>
 			<div class="fake-form-item">
-				<div class="fake-form-label">允许旋转🔄️：</div>
+				<div class="fake-form-label">允许图片旋转🔄️：</div>
 				<Switch v-model="setting.rotatable" />
 			</div>
 			<button class="btn" @click="openModel">Go 开始调整</button>
@@ -32,9 +32,10 @@
 	<Panel ref="panelRef" />
 </template>
 <script setup>
-	import Panel from './pages/Panel.vue'
+	import Panel from './pages/panel.vue'
 	import Switch from './components/switch.vue'
 	import { getImageSize } from './utils/utrl'
+	import _s from './utils/storge'
 
 	import { ref, reactive, toRaw, unref } from 'vue'
 
@@ -56,7 +57,8 @@
 		// const path = await betterncm.fs.mountFile(filePath)
 		// picPath.value = path
 		// picPath.value = './assets/img/立绘_缪尔赛思_1.png'
-		const { newWidth, newHeight } = await getImageSize('src/assets/img/立绘_缪尔赛思_1.png')
+		const picList = _s.getItem('PIC_LIST')
+		const { newWidth, newHeight } = await getImageSize(picList[0])
 		setting.w = newWidth
 		setting.h = newHeight
 		panelRef.value.modelShow(toRaw(setting), unref(picPath))
@@ -64,6 +66,7 @@
 	const choosePic = async () => {
 		// const filePath = await betterncm.app.openFileDialog('.webp .png .jpg\0', './') // 获取文件路径
 		// const path = await betterncm.fs.mountFile(filePath) //  获取图片代理地址
+		_s.setItem('PIC_LIST', ['src/assets/img/立绘_缪尔赛思_1.png'])
 	}
 	const modelClose = () => {
 		console.log(12121)
@@ -126,13 +129,17 @@
 					margin: 0 20px 20px 0;
 					overflow: hidden;
 					border-radius: 8px;
-					height: 270px;
-					box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
 					width: calc((100% - 80px) / 4);
+					padding-bottom: calc((100% - 80px) / 4);
+					box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
+					position: relative;
 					&::nth-of-type(4n + 0) {
 						margin-right: 0;
 					}
 					.full-img {
+						position: absolute;
+						top: 0;
+						left: 0;
 						width: 100%;
 						height: 100%;
 						// object-fit: cover; //短
@@ -149,8 +156,10 @@
 			.fake-form-item {
 				display: flex;
 				align-items: center;
+				padding: 10px 0;
 				.fake-form-label {
 					font-size: 18px;
+					width: 400px;
 				}
 			}
 		}
