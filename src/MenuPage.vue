@@ -4,9 +4,9 @@
 		<div class="card">
 			<div class="cont-c pic-title">选择一张图片作为你的看板:</div>
 			<div class="tip">🤔<span class="tip-txt">仅推荐使用.png透明背景的图片</span></div>
-			<div class="pic-list">
+			<div v-if="picObj.data.src" class="pic-list">
 				<div class="pic-item">
-					<!-- <img class="full-img" src="./assets/img/立绘_缪尔赛思_1.png" /> -->
+					<img class="full-img" :src="picObj.data.src" />
 				</div>
 			</div>
 			<button class="btn" @click="choosePic">选择图片</button>
@@ -15,15 +15,15 @@
 			<div class="cont-c pic-title">弹窗操作配置项:</div>
 			<div class="tip">🤔<span class="tip-txt">弹窗开启时操作功能在左上角</span></div>
 			<div class="fake-form-item">
-				<div class="fake-form-label">是否固定宽高比例♾️(☢️强烈不建议关闭☣️)：</div>
+				<div class="cont-c fake-form-label">是否固定宽高比例♾️(☢️强烈不建议关闭☣️)：</div>
 				<Switch v-model="setting.lockAspect" />
 			</div>
 			<div class="fake-form-item">
-				<div class="fake-form-label">允许图片拖动超出页面边界🔲：</div>
+				<div class="cont-c fake-form-label">允许图片拖动超出页面边界🔲：</div>
 				<Switch v-model="setting.parent" />
 			</div>
 			<div class="fake-form-item">
-				<div class="fake-form-label">允许图片旋转🔄️：</div>
+				<div class="cont-c fake-form-label">允许图片旋转🔄️：</div>
 				<Switch v-model="setting.rotatable" />
 			</div>
 			<button class="btn" @click="openModel">Go 开始调整</button>
@@ -37,40 +37,42 @@
 	import { getImageSize } from './utils/utrl'
 	import _s from './utils/storge'
 
-	import { ref, reactive, toRaw, unref } from 'vue'
+	import { ref, reactive, toRaw, unref, onMounted } from 'vue'
 
 	const setting = reactive({
 		rotatable: false, //旋转
 		z: 0, //层级
 		parent: true, //拖动出边界
 		lockAspect: true, //锁定比例
-		x: 50,
-		y: 50,
-		w: 300,
-		h: 300,
 	})
 	const panelRef = ref(null)
-	const picPath = ref('')
+	const picObj = reactive({ data: {} })
 
 	const openModel = async () => {
-		// const filePath = await betterncm.app.openFileDialog('.webp .png .jpg\0', './') // 获取文件路径
-		// const path = await betterncm.fs.mountFile(filePath)
-		// picPath.value = path
-		// picPath.value = './assets/img/立绘_缪尔赛思_1.png'
-		const picList = _s.getItem('PIC_LIST')
-		const { newWidth, newHeight } = await getImageSize(picList[0])
-		setting.w = newWidth
-		setting.h = newHeight
-		panelRef.value.modelShow(toRaw(setting), unref(picPath))
+		panelRef.value.modelShow({ ...toRaw(picObj.data), ...toRaw(setting) })
 	}
 	const choosePic = async () => {
-		// const filePath = await betterncm.app.openFileDialog('.webp .png .jpg\0', './') // 获取文件路径
-		// const path = await betterncm.fs.mountFile(filePath) //  获取图片代理地址
-		_s.setItem('PIC_LIST', ['src/assets/img/立绘_缪尔赛思_1.png'])
+		const filePath = await betterncm.app.openFileDialog('image/*', './') // 获取文件路径
+		const src = await betterncm.fs.mountFile(filePath)
+		let obj = {
+			x: 50,
+			y: 50,
+			filePath,
+		}
+		await getImageSize(src).then(({ newWidth = 300, newHeight = 300 }) => {
+			obj.w = newWidth
+			obj.h = newHeight
+		})
+		picObj.data = obj
+		_s.setItem('PIC_OBJ', obj)
 	}
-	const modelClose = () => {
-		console.log(12121)
-	}
+	onMounted(async () => {
+		const obj = _s.getItem('PIC_OBJ')
+		if (obj) {
+			picObj.data = obj
+			picObj.data.src = await betterncm.fs.mountFile(picObj.data.filePath)
+		}
+	})
 </script>
 <style lang="scss" scoped>
 	.cont-c {

@@ -6,11 +6,11 @@ const _s = {
         const value = localStorage.getItem(key);
         return value && JSON.parse(value);
     },
-    removeItem: function (key) {
-        localStorage.removeItem(key);
-    },
-    clear: function () {
-        localStorage.clear();
-    }
+    // removeItem: function (key) {
+    //     localStorage.removeItem(key);
+    // },
+    // clear: function () {
+    //     localStorage.clear();
+    // }
 };
 export default _s

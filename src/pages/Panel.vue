@@ -19,7 +19,7 @@
 				@resizestop="onResizeStop"
 				@dragstop="onDragStop">
 				<!-- <img class="vertical-painting" :src="srcprox" alt="" /> -->
-				<img class="vertical-painting" src="../assets/img/立绘_缪尔赛思_1.png" />
+				<!-- <img class="vertical-painting" src="../assets/img/立绘_缪尔赛思_1.png" /> -->
 			</VueDragResizeRotate>
 			<button @click="saveSetting">保存</button>
 			{{ setting.lockAspect }}
@@ -31,7 +31,7 @@
 	import { ref, reactive } from 'vue'
 
 	const show = ref(false)
-	const setting = reactive({ options: { w: 300, h: 300, x: 50, y: 50 } })
+	const setting = reactive({ data: {} })
 	/**
 	 * @rotatable 旋转
 	 * @z 层级
@@ -42,10 +42,10 @@
 	 */
 	const srcprox = ref('')
 
-	const modelShow = (options, pic) => {
-		srcprox.value = pic
-		setting.options = options
-		show.value = true
+	const modelShow = (options) => {
+		setting.data = options
+		console.log('setting.data', setting.data)
+		// show.value = true
 	}
 	const onDragStop = (x, y) => {
 		setting.options.x = x
