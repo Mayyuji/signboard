@@ -3,23 +3,23 @@
 	<Teleport to="body">
 		<div v-if="show && setting" class="modal">
 			<VueDragResizeRotate
-				:z="setting.options.z || 0"
-				:rotatable="setting.options.rotatable"
-				:parent="setting.options.parent"
-				:lock-aspect-ratio="setting.options.lockAspect"
+				:z="setting.data.z || 0"
+				:rotatable="setting.data.rotatable"
+				:parent="setting.data.parent"
+				:lock-aspect-ratio="setting.data.lockAspect"
 				:enable-native-drag="false"
 				:prevent-deactivation="true"
 				:active="true"
-				:x="setting.options.x"
-				:y="setting.options.y"
-				:w="setting.options.w"
-				:h="setting.options.h"
+				:x="setting.data.x"
+				:y="setting.data.y"
+				:w="setting.data.w"
+				:h="setting.data.h"
 				:min-width="100"
 				:min-height="100"
 				@resizestop="onResizeStop"
 				@dragstop="onDragStop">
-				<!-- <img class="vertical-painting" :src="srcprox" alt="" /> -->
-				<!-- <img class="vertical-painting" src="../assets/img/立绘_缪尔赛思_1.png" /> -->
+				<img class="vertical-painting" :src="setting.data.src" alt="" />
+				<!-- <img class="vertical-painting" src="/src/assets/img/test.jpeg" /> -->
 			</VueDragResizeRotate>
 			<button @click="saveSetting">保存</button>
 			{{ setting.lockAspect }}
@@ -28,10 +28,13 @@
 </template>
 <script setup>
 	import VueDragResizeRotate from '@gausszhou/vue3-drag-resize-rotate'
-	import { ref, reactive } from 'vue'
+	import { ref, reactive, onMounted } from 'vue'
+	import _s from '../utils/storge'
 
 	const show = ref(false)
 	const setting = reactive({ data: {} })
+	const cuttentVal = reactive({ data: {} })
+	let cVal = cuttentVal.data
 	/**
 	 * @rotatable 旋转
 	 * @z 层级
@@ -40,29 +43,45 @@
 	 * :enable-native-drag 禁止内部元素拖动
 	 * :prevent-deactivation 阻止失活
 	 */
-	const srcprox = ref('')
 
 	const modelShow = (options) => {
-		setting.data = options
+		// setting.data = options
+		setting.data = {
+			filePath: 'xxxxxxxxxxxxxxxxxxxxx',
+			h: 300,
+			lockAspect: true,
+			parent: true,
+			rotatable: false,
+			src: '/src/assets/img/test.jpeg',
+			w: 300,
+			x: 50,
+			y: 50,
+			z: 0,
+		}
 		console.log('setting.data', setting.data)
-		// show.value = true
+		show.value = true
 	}
 	const onDragStop = (x, y) => {
-		setting.options.x = x
-		setting.options.y = y
+		cVal.x = x
+		cVal.y = y
 	}
 	const onResizeStop = (x, y, width, height) => {
-		setting.options.x = x
-		setting.options.y = y
-		setting.options.w = width
-		setting.options.h = height
+		console.log(x, y, width, height)
+		cVal.x = x
+		cVal.y = y
+		cVal.w = width
+		cVal.h = height
 	}
 	const saveSetting = () => {
-		console.log(setting.options)
-		show.value = false
+		console.log('cVal', cVal)
+		// _s.setItem('PIC_OBJ', obj)
+		// show.value = false
 	}
 	defineExpose({
 		modelShow,
+	})
+	onMounted(() => {
+		modelShow()
 	})
 </script>
 
