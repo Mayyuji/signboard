@@ -3,7 +3,7 @@
 	<div class="wy-menu-box">
 		<div class="card">
 			<div class="cont-c pic-title">选择一张图片作为你的看板:</div>
-			<div class="tip">🤔<span class="tip-txt">仅推荐使用.png透明背景的图片</span></div>
+			<div class="tip">🤔<span class="tip-txt">墙裂推荐使用透明背景的图片</span></div>
 			<div v-if="picObj.data.src" class="pic-list">
 				<div class="pic-item">
 					<img class="full-img" :src="picObj.data.src" />
@@ -114,7 +114,7 @@
 			padding: 16px;
 			border-radius: 6px;
 			margin-bottom: 10px;
-			background: #fff;
+			background: #f2f2f2;
 			.pic-title {
 				font-weight: 600;
 				font-size: 20px;
