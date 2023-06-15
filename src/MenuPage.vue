@@ -56,11 +56,12 @@
 	}
 	const choosePic = async () => {
 		const filePath = await betterncm.app.openFileDialog('image/*', './') // 获取文件路径
-		const src = await betterncm.fs.mountFile(filePath)
+		const src = await betterncm.fs.mountFile(filePath) //代理地址
 		let obj = {
 			x: 50,
 			y: 50,
 			filePath,
+			src,
 		}
 		await getImageSize(src).then(({ newWidth = 300, newHeight = 300 }) => {
 			obj.w = newWidth
@@ -69,17 +70,16 @@
 		picObj.data = obj
 		_s.setItem('PIC_OBJ', obj)
 	}
-	const putPic = () => {
-		waifuRef.value.drawPic({ ...toRaw(picObj.data) })
+	const putPic = (data) => {
+		waifuRef.value.drawPic(data)
 	}
 	onMounted(async () => {
 		const obj = _s.getItem('PIC_OBJ')
 		if (obj) {
 			picObj.data = obj
-			// picObj.data.src = await betterncm.fs.mountFile(picObj.data.filePath)
-			picObj.data.src = 'src/assets/img/test.jpeg'
-			console.log('picObj', picObj)
-			this.putPic()
+			picObj.data.src = await betterncm.fs.mountFile(picObj.data.filePath)
+			// picObj.data.src = 'src/assets/img/test.jpeg'
+			putPic({ ...toRaw(picObj.data) })
 		}
 	})
 </script>
