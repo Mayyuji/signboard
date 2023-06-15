@@ -18,7 +18,7 @@
 				:min-height="100"
 				@resizestop="onResizeStop"
 				@dragstop="onDragStop">
-				<!-- <img class="vertical-painting" :src="setting.data.src" alt="" /> -->
+				<img class="vertical-painting" :src="setting.data.src" alt="" />
 			</VueDragResizeRotate>
 			<div class="menu">
 				<div class="menu-btn" @click="menuShow = !menuShow">
@@ -70,11 +70,13 @@
 	</Teleport>
 </template>
 <script setup>
-	import VueDragResizeRotate from '@gausszhou/vue3-drag-resize-rotate'
-	import { ref, reactive, onMounted, toRaw } from 'vue'
 	import _s from '../utils/storge'
+	import { ref, reactive, toRaw } from 'vue'
 
 	import Switch from '../components/switch.vue'
+	import VueDragResizeRotate from '@gausszhou/vue3-drag-resize-rotate'
+
+	const emit = defineEmits(['setObj'])
 
 	const show = ref(false)
 	const menuShow = ref(false)
@@ -89,18 +91,6 @@
 	 */
 
 	const modelShow = (options) => {
-		options = {
-			filePath: 'xxxxxxxxxxxxxxxxxxxxx',
-			h: 300,
-			lockAspect: true,
-			parent: true,
-			rotatable: false,
-			src: '/src/assets/img/test.jepg',
-			w: 300,
-			x: 50,
-			y: 50,
-			z: 0,
-		}
 		setting.data = options
 		setting.current = {
 			filePath: options.filePath,
@@ -122,16 +112,13 @@
 		setting.current.h = height
 	}
 	const saveSetting = () => {
-		console.log('cVal', setting.current)
 		_s.setItem('PIC_OBJ', setting.current)
+		emit('setObj')
 		show.value = false
 		menuShow.value = false
 	}
 	defineExpose({
 		modelShow,
-	})
-	onMounted(() => {
-		modelShow()
 	})
 </script>
 

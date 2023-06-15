@@ -29,10 +29,12 @@
 			<button class="btn" @click="openModel">Go 开始调整</button>
 		</div>
 	</div>
-	<Panel ref="panelRef" />
+	<Panel ref="panelRef" @setObj="putPic" />
+	<Waifu ref="waifuRef"></Waifu>
 </template>
 <script setup>
 	import Panel from './pages/panel.vue'
+	import Waifu from './pages/waifu.vue'
 	import Switch from './components/switch.vue'
 	import { getImageSize } from './utils/utrl'
 	import _s from './utils/storge'
@@ -46,6 +48,7 @@
 		lockAspect: true, //锁定比例
 	})
 	const panelRef = ref(null)
+	const waifuRef = ref(null)
 	const picObj = reactive({ data: {} })
 
 	const openModel = async () => {
@@ -66,11 +69,17 @@
 		picObj.data = obj
 		_s.setItem('PIC_OBJ', obj)
 	}
+	const putPic = () => {
+		waifuRef.value.drawPic({ ...toRaw(picObj.data) })
+	}
 	onMounted(async () => {
 		const obj = _s.getItem('PIC_OBJ')
 		if (obj) {
 			picObj.data = obj
-			picObj.data.src = await betterncm.fs.mountFile(picObj.data.filePath)
+			// picObj.data.src = await betterncm.fs.mountFile(picObj.data.filePath)
+			picObj.data.src = 'src/assets/img/test.jpeg'
+			console.log('picObj', picObj)
+			this.putPic()
 		}
 	})
 </script>
