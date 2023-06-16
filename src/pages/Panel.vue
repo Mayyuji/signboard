@@ -21,20 +21,9 @@
 				<img class="vertical-painting" :src="setting.data.src" alt="" />
 			</VueDragResizeRotate>
 			<div class="menu">
-				<div class="menu-btn" @click="menuShow = !menuShow">
-					<Transition name="bounce">
+				<div class="menu-btn-box">
+					<div class="menu-btn" @click="menuShow = !menuShow">
 						<svg
-							v-if="menuShow"
-							fill="none"
-							stroke="currentColor"
-							stroke-width="1.5"
-							viewBox="0 0 24 24"
-							xmlns="http://www.w3.org/2000/svg"
-							aria-hidden="true">
-							<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
-						</svg>
-						<svg
-							v-else
 							fill="none"
 							stroke="currentColor"
 							stroke-width="1.5"
@@ -46,7 +35,11 @@
 								stroke-linejoin="round"
 								d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"></path>
 						</svg>
-					</Transition>
+					</div>
+					<div v-show="menuShow" class="option-box">
+						<button class="btn close" @click="closeMask">关闭遮罩</button>
+						<button class="btn" @click="saveSetting">保存</button>
+					</div>
 				</div>
 				<Transition name="qeqweaq">
 					<div class="menu-item" v-if="menuShow">
@@ -65,7 +58,6 @@
 					</div>
 				</Transition>
 			</div>
-			<button @click="saveSetting">保存</button>
 		</div>
 	</Teleport>
 </template>
@@ -114,6 +106,9 @@
 	const saveSetting = () => {
 		_s.setItem('PIC_OBJ', setting.current)
 		emit('setObj', { ...toRaw(setting.current), src: setting.data.src })
+		closeMask()
+	}
+	const closeMask = () => {
 		show.value = false
 		menuShow.value = false
 	}
@@ -123,12 +118,6 @@
 </script>
 
 <style lang="scss" scoped>
-	.bounce-enter-active {
-		animation: bounce-in 0.3s;
-	}
-	.bounce-leave-active {
-		animation: bounce-in 0.3s reverse;
-	}
 	.qeqweaq-enter-active {
 		animation: qeqweaq-in 0.3s;
 	}
@@ -145,19 +134,9 @@
 			height: 182px;
 		}
 	}
-	@keyframes bounce-in {
-		0% {
-			transform: scale(0);
-			opacity: 0.2;
-		}
-		100% {
-			transform: scale(1);
-			opacity: 1;
-		}
-	}
 	.modal {
 		position: absolute;
-		background: #b2e0df;
+		background: rgba(112, 112, 112, 0.5);
 		top: 0;
 		left: 0;
 		z-index: 999;
@@ -181,10 +160,29 @@
 			box-sizing: border-box;
 			padding: 12px;
 			border-radius: 16px;
-			.menu-btn {
-				width: 32px;
-				overflow: hidden;
-				height: 32px;
+			.menu-btn-box {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				.option-box {
+					.btn {
+						color: #fff;
+						box-sizing: border-box;
+						border: none;
+						background-color: #86a0ff;
+						margin-left: 10px;
+						border-radius: 8px;
+						padding: 6px;
+					}
+					.close {
+						background-color: #f87272;
+					}
+				}
+				.menu-btn {
+					width: 32px;
+					// overflow: hidden;
+					height: 32px;
+				}
 			}
 			.menu-item {
 				overflow: hidden;

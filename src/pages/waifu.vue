@@ -1,7 +1,6 @@
 <template>
 	<Teleport to="body">
 		<div :style="styleObject"><img class="who-am-i" :src="styleObject.src" alt="俺的图图呢" /></div>
-		!!{{ styleObject.sr }}!! ??{{ aa }}??
 		<!-- <div :style="styleObject"><img class="who-am-i" src="../assets/img/test.jpeg" alt="俺的图图呢" /></div> -->
 	</Teleport>
 </template>
