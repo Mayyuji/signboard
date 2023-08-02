@@ -54,9 +54,9 @@
   <Waifu :control="showWaifu && !panelShow" ref="waifuRef"></Waifu>
 </template>
 <script setup>
-  import Panel from './pages/panel.vue'
-  import Waifu from './pages/waifu.vue'
-  import Switch from './components/switch.vue'
+  import Panel from './pages/panel'
+  import Waifu from './pages/waifu'
+  import Switch from './components/switch'
   import { getImageSize } from './utils/utrl'
   import _s from './utils/storge'
 
