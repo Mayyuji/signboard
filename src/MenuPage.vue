@@ -55,8 +55,8 @@
 </template>
 <script setup>
   import { getImageSize } from './utils/utrl'
+  import Waifu from './Waifu.vue'
   import Panel from './pages/Panel'
-  import Waifu from './pages/Waifu'
   import Switch from './components/switch.vue'
   import _s from './utils/storge'
 
