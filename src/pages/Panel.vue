@@ -1,7 +1,8 @@
 <template>
   <!-- 弹窗遮罩 -->
   <Teleport to="body">
-    <div v-if="show && setting" class="modal">
+    <!-- v-if="show && setting" -->
+    <div class="modal">
       <VueDragResizeRotate
         :z="setting.data.z || 0"
         :rotatable="setting.data.rotatable"
@@ -22,9 +23,10 @@
       </VueDragResizeRotate>
       <div class="menu">
         <div class="menu-btn-box">
-          <div class="menu-btn cont-c" @click="menuShow = !menuShow">
+          <div class="menu-btn cont-c cursor" @click="menuShow = !menuShow">
             <svg
-              fill="#333"
+              style="filter: brightness(1)"
+              fill="currentColor"
               stroke="currentColor"
               stroke-width="1.5"
               viewBox="0 0 24 24"
@@ -33,12 +35,15 @@
               <path
                 stroke-linecap="round"
                 stroke-linejoin="round"
+                fill="currentColor"
                 d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75"></path>
             </svg>
           </div>
           <div v-show="menuShow" class="option-box">
-            <button class="btn close" @click="closeMask">关闭遮罩</button>
-            <button class="btn" @click="saveSetting">保存</button>
+            <button class="btn close cursor" @click="closeMask">
+              关闭遮罩
+            </button>
+            <button class="btn cursor" @click="saveSetting">保存</button>
           </div>
         </div>
         <Transition name="qeqweaq">

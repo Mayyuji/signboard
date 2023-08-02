@@ -19,7 +19,7 @@
           <img class="full-img" :src="picObj.data.src" />
         </div>
       </div>
-      <button class="btn" @click="choosePic">选择图片</button>
+      <button class="btn cursor" @click="choosePic">选择图片</button>
     </div>
     <div class="card">
       <div class="cont-c pic-title">弹窗操作配置项:</div>
@@ -28,7 +28,7 @@
       </div>
       <div class="fake-form-item">
         <div class="cont-c fake-form-label">
-          是否固定宽高比例♾️(☢️强烈不建议关闭☣️)：
+          是否保持图片宽高比例♾️(☢️强烈不建议关闭☣️)：
         </div>
         <Switch v-model="setting.lockAspect" />
       </div>
@@ -40,7 +40,14 @@
         <div class="cont-c fake-form-label">允许图片旋转🔄️：</div>
         <Switch v-model="setting.rotatable" />
       </div>
-      <button class="btn" @click="openModel">Go 开始调整</button>
+      <div class="submit-box">
+        <button class="btn cursor" @click="openModel">Go 开始调整</button>
+        <div class="tip" v-if="showTip">
+          😵<span class="tip-txt">先添加张图片吧</span>
+          <span class="tip-btn cursor" @click="showTip = false">关闭</span>
+          <span class="tip-btn add cursor" @click="addPic">添加</span>
+        </div>
+      </div>
     </div>
   </div>
   <Panel ref="panelRef" @setObj="putPic" />
@@ -65,11 +72,21 @@
   const waifuRef = ref(null)
   const showWaifu = ref(true)
   const panelShow = ref(false)
+  const showTip = ref(false)
   const picObj = reactive({ data: {} })
 
   const openModel = async () => {
-    panelRef.value.modelShow({ ...toRaw(picObj.data), ...toRaw(setting) })
-    panelShow.value = true
+    if (Object.keys(picObj.data).length === 0) {
+      showTip.value = true
+    } else {
+      showTip.value = false
+      panelRef.value.modelShow({ ...toRaw(picObj.data), ...toRaw(setting) })
+      panelShow.value = true
+    }
+  }
+  const addPic = () => {
+    showTip.value = false
+    choosePic()
   }
   const choosePic = async () => {
     const filePath = await betterncm.app.openFileDialog('image/*', './') // 获取文件路径
@@ -100,7 +117,6 @@
     if (obj && obj.show) {
       picObj.data = obj
       picObj.data.src = await betterncm.fs.mountFile(picObj.data.filePath)
-      // picObj.data.src = 'src/assets/img/test.jpeg'
       putPic({ ...toRaw(picObj.data) })
     }
   })
@@ -112,6 +128,7 @@
     padding: 16px;
     border: 2px solid #f87272;
     border-radius: 10px;
+    background-color: #ccc;
     .tip-txt {
       color: #f87272 !important;
       padding-left: 10px;
@@ -127,11 +144,30 @@
       padding-left: 10px;
     }
   }
+  .submit-box {
+    display: flex;
+    align-items: center;
+    .tip {
+      padding: 12px;
+      margin: 0 20px;
+      border: 2px solid #f87272;
+      background-color: #ccc;
+      .tip-btn {
+        color: #f87272 !important;
+        font-weight: bold;
+        margin-left: 20px;
+      }
+      .add {
+        color: #4a07da !important;
+      }
+    }
+  }
   .btn {
     border: none;
     background-color: #3d4451;
     color: #fff;
     padding: 12px;
+    height: 44px;
     font-size: 16px;
     border-radius: 8px;
     &:hover {
