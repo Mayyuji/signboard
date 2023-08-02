@@ -72,7 +72,7 @@
   import _s from '@/utils/storge'
   import { ref, reactive, toRaw } from 'vue'
 
-  import Switch from '@/components/switch'
+  import Switch from '@/components/switch.vue'
   import VueDragResizeRotate from '@gausszhou/vue3-drag-resize-rotate'
 
   const emit = defineEmits(['setObj'])
