@@ -69,10 +69,10 @@
   </Teleport>
 </template>
 <script setup>
-  import _s from '../utils/storge'
+  import _s from '@/utils/storge'
   import { ref, reactive, toRaw } from 'vue'
 
-  import Switch from '../components/switch.vue'
+  import Switch from '@/components/switch'
   import VueDragResizeRotate from '@gausszhou/vue3-drag-resize-rotate'
 
   const emit = defineEmits(['setObj'])

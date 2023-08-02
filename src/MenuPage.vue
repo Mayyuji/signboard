@@ -54,11 +54,11 @@
   <Waifu :control="showWaifu && !panelShow" ref="waifuRef"></Waifu>
 </template>
 <script setup>
-  import Panel from './pages/panel'
-  import Waifu from './pages/waifu'
-  import Switch from './components/switch'
-  import { getImageSize } from './utils/utrl'
-  import _s from './utils/storge'
+  import Panel from '@/pages/panel'
+  import Waifu from '@/pages/waifu'
+  import Switch from '@/components/switch'
+  import { getImageSize } from '@/utils/utrl'
+  import _s from '@/utils/storge'
 
   import { ref, reactive, toRaw, unref, onMounted } from 'vue'
 
