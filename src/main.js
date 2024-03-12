@@ -1,5 +1,5 @@
 import { createApp, h } from 'vue'
-import MenuPage from './MenuPage.vue'
+import MenuPage from './menu-page.vue'
 import "@gausszhou/vue3-drag-resize-rotate/lib/bundle.esm.css"; // 组件内引入不生效
 import './assets/style.scss'
 try {

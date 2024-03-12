@@ -51,11 +51,11 @@
     </div>
   </div>
   <Panel ref="panelRef" @setObj="putPic" />
-  <Waifu :control="showWaifu && !panelShow" ref="waifuRef"></Waifu>
+  <Card :control="showWaifu && !panelShow" ref="cardRef"></Card>
 </template>
 <script setup>
-  import Waifu from './pages/waifunew.vue'
-  import Panel from './pages/panelnew.vue'
+  import Card from './pages/card-new.vue'
+  import Panel from './pages/panel-new.vue'
   import Switch from './components/switch.vue'
   import { getImageSize } from './utils/utrl'
   import _s from './utils/storge'
@@ -69,7 +69,7 @@
     lockAspect: true, //锁定比例
   })
   const panelRef = ref(null)
-  const waifuRef = ref(null)
+  const cardRef = ref(null)
   const showWaifu = ref(true)
   const panelShow = ref(false)
   const showTip = ref(false)
@@ -89,8 +89,8 @@
     choosePic()
   }
   const choosePic = async () => {
-    const filePath = await betterncm.app.openFileDialog('image/*', './') // 获取文件路径
-    const src = await betterncm.fs.mountFile(filePath) //代理地址
+    const filePath = await betterncm.app.openFileDialog('.png', './') // 获取文件路径
+    const src = await betterncm.fs.mountFile(filePath) // 代理地址
     let obj = {
       x: 50,
       y: 50,
@@ -102,6 +102,7 @@
       obj.w = newWidth
       obj.h = newHeight
     })
+    console.log('obj',obj)
     picObj.data = obj
     _s.setItem('PIC_OBJ', obj)
   }
@@ -109,7 +110,7 @@
     panelShow.value = false
     console.log(data)
     if (data) {
-      waifuRef.value.drawPic(data)
+      cardRef.value.drawPic(data)
     }
   }
   onMounted(async () => {
@@ -178,8 +179,7 @@
     width: 100%;
     height: 100%;
     overflow-y: auto;
-    background-color: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(2px);
+    background-color: #fefefe;
     border-radius: 10px;
     box-sizing: border-box;
     padding: 10px;

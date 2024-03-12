@@ -1,8 +1,8 @@
 <template>
   <!-- 弹窗遮罩 -->
   <Teleport to="body">
-    <!-- v-if="show && setting" -->
-    <div class="modal">
+    <!--  -->
+    <div v-if="show && setting" class="modal">
       <VueDragResizeRotate
         :z="setting.data.z || 0"
         :rotatable="setting.data.rotatable"
@@ -150,7 +150,7 @@
     background: rgba(112, 112, 112, 0.5);
     top: 0;
     left: 0;
-    z-index: 999;
+    z-index: auto;
     width: 100%;
     height: 100%;
     overflow: hidden;
@@ -165,7 +165,7 @@
       color: #333 !important;
       top: 0;
       left: 0;
-      z-index: 1000;
+      z-index: 1234;
       margin: 14px;
       background-color: #f2f2f2;
       display: inline-block;
